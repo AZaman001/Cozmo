@@ -1,0 +1,6 @@
+cozmo = {version = "*", extras = ["camera"]}
+flask = "*"
+requests = "*"
+pyopengl = "*"
+matplotlib = "*"
+numpy = "*"
