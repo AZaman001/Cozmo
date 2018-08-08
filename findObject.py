@@ -8,6 +8,8 @@ import json
 import time
 import asyncio
 import datetime
+import csv
+import subprocess
 
 
 isProcessing = False
@@ -27,10 +29,14 @@ def parseResponse(response):
     highestConfidence = 0.0
     highestEntry = ''
     print(response)
+    labels=[]
+    values=[]
     for key in response.keys():
         if key == "answer":
             for guess in response[key].keys():
                 print(f"guess: {guess}")
+                labels.append(guess)
+                values.append(response[key][guess])
                 entries[response[key][guess]] = guess
     for key in entries.keys():
         if key > highestConfidence:
@@ -39,6 +45,14 @@ def parseResponse(response):
     if highestConfidence > 0.8:
         if targetObject == highestEntry:
             discoveredObject = True
+    print(labels)
+    print(values)
+    with open("result.csv",'w') as resultFile:
+        wr = csv.writer(resultFile)
+        wr.writerow(labels)
+        wr.writerow(values)
+    subprocess.call('pipenv run python3 graph.py', shell=True)
+
 
 # Cozmo Detective's model of taking a picture
 # Store photos taken locally and also posts it to tensorflow training model to recognize object
@@ -57,6 +71,7 @@ def on_new_camera_image(evt, **kwargs):
                     pilImage.save(photo_location, "JPEG")
                     with open(photo_location, 'rb') as f:
                         # tensorflow endpoint
+                        print("hitting tensorflow endpoint")
                         r = requests.post('https://tensorflowwaiter-aserecruitfy19.uscom-central-1.oraclecloud.com/tensorflow', files={'file': f})
                     print(r)
                     parseResponse(r.json())
