@@ -101,7 +101,7 @@ def get_object(robot: cozmo.robot.Robot):
     action = robot.place_object_on_ground_here(cube)
     action.wait_for_completed()
     print("result for PLACING object:", action.result)
-    robot.say_text(f"I have completed the my task. {targetObject} for John Dunbar.").wait_for_completed()
+    robot.say_text(f"I have completed my task. {targetObject} for John Dunbar.").wait_for_completed()
 
 # from Cozmo Detective to look until target object is recognized.
 def cozmo_program(robot: cozmo.robot.Robot):
