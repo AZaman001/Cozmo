@@ -72,7 +72,7 @@ def on_new_camera_image(evt, **kwargs):
                     with open(photo_location, 'rb') as f:
                         # tensorflow endpoint
                         print("hitting tensorflow endpoint")
-                        r = requests.post('https://tensorflowwaiter-aserecruitfy19.uscom-central-1.oraclecloud.com/tensorflow', files={'file': f})
+                        r = requests.post('https://tensorflow-gse00014632.uscom-east-1.oraclecloud.com/tensorflow', files={'file': f})
                     print(r)
                     parseResponse(r.json())
                     isProcessing = False
